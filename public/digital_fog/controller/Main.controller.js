@@ -90,7 +90,7 @@ sap.ui.define([
       unit: "imperial", //change to metric for celsius
       //NHL url
       matches: 6,
-      nhl_url: "//live.nhle.com/GameData/RegularSeasonScoreboardv3.jsonp",
+      nhl_url: "http://live.nhle.com/GameData/RegularSeasonScoreboardv3.jsonp",
       nhl_timeformat: 'ddd h:mm',
       nhl_icon_colored: false,
       //for twitter module

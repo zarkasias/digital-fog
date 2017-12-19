@@ -71,8 +71,8 @@ sap.ui.define([
     config: {
       language: "en",
       apiVersion: "2.5",
-      apiBase: "http://api.openweathermap.org/data/",
-      newsfeeds: ["http://news.sap.com/feed/"],
+      apiBase: "https://api.openweathermap.org/data/",
+      newsfeeds: ["https://news.sap.com/feed/"],
       weatherEndpoint: "weather",
       forecastEndpoint: "forecast",
       location: "Palo Alto",

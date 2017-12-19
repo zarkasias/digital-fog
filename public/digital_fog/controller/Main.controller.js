@@ -280,7 +280,7 @@ sap.ui.define([
       var that = this;
       var arrayLoc = [];
       //get our current location JSON data:
-      var locURL = "http://ipinfo.io/json?callback=?";
+      var locURL = "https://ipinfo.io/json?callback=?";
 
       //JSONP call
       $.getJSON(locURL).done(function(data) {

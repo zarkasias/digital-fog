@@ -1,0 +1,27 @@
+{
+  "name": "digital-fog",
+  "version": "1.0.0",
+  "description": "Digital Fog Application",
+  "main": "index.js",
+  "scripts": {
+    "start" : "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zarkasias/digital-fog.git"
+  },
+  "keywords": [
+    "Digital",
+    "Fog"
+  ],
+  "author": "David Chambers",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zarkasias/digital-fog/issues"
+  },
+  "homepage": "https://github.com/zarkasias/digital-fog#readme",
+  "dependencies": {
+    "express": "^4.16.2"
+  }
+}

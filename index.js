@@ -8,4 +8,5 @@ app.get('/', function (req, res) {
   res.send('Hello World')
 })
 
-app.listen(4800)
+var port = process.env.PORT || 4800;
+app.listen(port);

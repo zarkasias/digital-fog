@@ -38,6 +38,11 @@ sap.ui.define([
         that.setGreeting();
         that.getNewsFeed();
         that.getNHLFeed();
+        
+        that.reloadtimer = setInterval(function() {
+          that.getNewsFeed();
+          that.getNHLFeed();
+        }, this.config.reloadInterval);
     },
 
     onRouteMatched: function(oEvent) {
@@ -82,6 +87,7 @@ sap.ui.define([
       animationSpeed: 2.5 * 1000,
       fadeSpeed: 4000,
       greetingUpdateInterval: 30000,
+      reloadInterval: 30 * 60 * 1000,
       newsUpdateInterval: 10 * 1000,
       nhlrotateInterval: 20 * 1000,
       nhlreloadInterval: 30 * 60 * 1000,
@@ -422,6 +428,10 @@ sap.ui.define([
 
     getNewsFeed: function() {
       var that = this;
+      //reset newstimer
+      clearInterval(that.newstimer);
+      that.newstimer = 0;
+
       moment.locale(this.config.language);
 
       if (that.newsbusy.hasStyleClass("busy_hide")) {
@@ -464,7 +474,7 @@ sap.ui.define([
     startNewsFeed: function() {
       var that = this;
       that.runNewsFeed(that.newsTitle, that.newsItems[that.activeItem]);
-      var timer = setInterval(function() {
+      that.newstimer = setInterval(function() {
         that.oldNewsFade();
       }, this.config.newsUpdateInterval);
 
@@ -518,6 +528,8 @@ sap.ui.define([
 
     getNHLFeed: function() {
       var that = this;
+      clearInterval(that.nhltimer);
+      that.nhltimer = 0;
 
       //initialize nhl table to be hidden
       var $nhlt = that.byId("nhlScores").$();
@@ -623,7 +635,7 @@ sap.ui.define([
       }, as);
 
 
-      var nhltimer = setInterval(function() {
+      that.nhltimer = setInterval(function() {
         if (that.rotateIndex + that.config.matches >= that.scores.length) {
               that.rotateIndex = 0;
           } else {

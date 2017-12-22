@@ -40,15 +40,15 @@
               </HBox>
               <HBox justifyContent="SpaceBetween">
                 <Label text="{hometeam}" textAlign="Begin" class="bright xsmall bold nhlpaddingright" />
-                <Image src="{homeicon}" visible="{icon_color}" class="icontop nhlpaddingright" />
-                <Image src="{homeicon}" visible="{= ${icon_color} === false}" class="icon icontop nhlpaddingright" />
+                <Image src="{homeicon}" visible="{icon_color}" densityAware="false" class="icontop nhlpaddingright" />
+                <Image src="{homeicon}" visible="{= ${icon_color} === false}" densityAware="false" class="icon icontop nhlpaddingright" />
                 <Label text="{homescore}" textAlign="End" class="bright xsmall bold" />
               </HBox>
                 <Label text=":" class="bright xsmall bold" />
               <HBox justifyContent="SpaceBetween" alignContent="Begin">
                 <Label text="{awayscore}" textAlign="Begin" class="bright xsmall bold" />
-                <Image src="{awayicon}" visible="{icon_color}" class="icontop nhlpaddingleft" />
-                <Image src="{awayicon}" visible="{= ${icon_color} === false}" class="icon icontop nhlpaddingleft" />
+                <Image src="{awayicon}" visible="{icon_color}" densityAware="false" class="icontop nhlpaddingleft" />
+                <Image src="{awayicon}" visible="{= ${icon_color} === false}" densityAware="false" class="icon icontop nhlpaddingleft" />
                 <Label text="{awayteam}" class="bright xsmall bold align-left nhlpaddingleft" />
               </HBox>
             </ColumnListItem>

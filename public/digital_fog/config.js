@@ -20,7 +20,7 @@ var econfig = {
 
    //Twitter keys and consumer secrets - these fields will all be required to perform oAuth2
    //https://dev.twitter.com/oauth/overview/application-owner-access-tokens.
-
+   tweetsToShowAtATime: 4,
    // consumer_key: "REQUIRED",
    // consumer_secret: "REQUIRED",
    // access_token_key: "REQUIRED",

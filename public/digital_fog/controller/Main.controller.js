@@ -34,20 +34,33 @@ sap.ui.define([
             that.config[i] = econfig[i];
           }
         }
-        //that.setupTwitter();
+
         that.setGreeting();
         that.getNewsFeed();
-        that.getNHLFeed();
-        
+        if (that.config.showTwitter) {
+          that.setupTwitter();
+        }
+        if (that.config.showNHL) {
+          if (that.nhltable.hasStyleClass('comp-hidden')) {
+            that.nhltable.removeStyleClass('comp-hidden');
+          }
+          that.getNHLFeed();
+        } else {
+          that.nhltable.addStyleClass('comp-hidden');
+        }
+
         that.reloadtimer = setInterval(function() {
           that.getNewsFeed();
-          that.getNHLFeed();
+          if (that.config.showNHL) {
+            that.getNHLFeed();
+          }
         }, this.config.reloadInterval);
     },
 
     onRouteMatched: function(oEvent) {
       var that = this;
 
+      this.nhltable = this.getView().byId("nhlScores");
       this.weatherlabel = this.getView().byId("current_weather");
       this.forecastlabel = this.getView().byId("forecast_header");
       this.forecastlist = this.getView().byId("forecast_list");
@@ -67,6 +80,8 @@ sap.ui.define([
       seconds: '',
       temperature: '',
       nhlheader: '',
+      twitterhead: '',
+      twitterfeed: [],
       scores: []
     },
 
@@ -95,18 +110,21 @@ sap.ui.define([
       greetings: ["Welcome to the d-shop @ the SAP Innovation Space"],
       unit: "imperial", //change to metric for celsius
       //NHL url
+      showNHL: false,
+      showTwitter: true,
       matches: 6,
       nhl_url: "http://live.nhle.com/GameData/RegularSeasonScoreboardv3.jsonp",
       nhl_timeformat: 'ddd h:mm',
       nhl_icon_colored: false,
       //for twitter module
+      tweetsToShowAtATime: 5,
       consumer_key: 'tkwgIgsbtLwDIvpqvOpurWCnV',
       consumer_secret: '1DeNM1G15nDssTfvKJwr1HA6nURWTWP9QyVbzy3Hpvw2MPfGVX',
       access_token_key: '34385027-ICXUWIEJyH6Fc6YzxqwPv4iBEs2Y7XzaXKJDrdYf2',
       access_token_secret: '3gCKhNZ8KDsG8XQW66OijeVVap7NeWZf03HWErwd3OG0e',
       // set the username and either timeline or listname
       screenName: 'zarkasias',
-      listToShow: 'TIMELINE'
+      listToShow: 'digital_fog' //TIMELINE default
     },
 
     rotateIndex: 0,
@@ -116,6 +134,8 @@ sap.ui.define([
       state: false,
       matches: []
     },
+
+    tweetIndex: null,
 
     nhlmodes: {
       '01': 'Pre-Season',
@@ -220,8 +240,11 @@ sap.ui.define([
       7: "Sunday"
     },
 
+    /********* Begin - Twitter Feed *******/
+
     setupTwitter: function() {
       var that = this;
+      that.tweets = [];
 
       var twitterconfig = {
         "consumer_key" : that.config.consumer_key,
@@ -236,7 +259,7 @@ sap.ui.define([
 
 
       $.ajax({
-        url: "http://localhost:4800/twitterconfig",
+        url: "/twitterconfig",
         type: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -245,16 +268,108 @@ sap.ui.define([
         dataType: "json",
         async: true,
         success: function(data) {
-          console.log(data.statusText)
+          that.tweets = data;
+          that.setTwitterHead();
+          that.setTwitterDisplay();
         },
 
         error: function(data) {
-        console.log(data.statusText);
+        console.log(data);
         }
 
       });
 
+      // $.getJSON("http://localhost:3000/tweets/", function(data) {
+      //   that.tweets = data;
+      //   that.setTwitterHead();
+      //   that.setTwitterDisplay();
+      // });
+
     },
+
+    setTwitterHead: function() {
+      var that = this;
+      that.getView().getModel().getData().twitterhead =   that.config.screenName + " - " + that.config.listToShow;
+      that.getView().getModel().refresh();
+    },
+
+    setTwitterDisplay: function() {
+      var that = this;
+      that.twitterdisplay = [];
+      var tshow = that.config.tweetsToShowAtATime;
+      //console.log(that.tweets);
+      if (that.tweets.length <= tshow) {
+          that.twitterdisplay = that.tweets;
+      } else {
+        var indexStart = that.tweetIndex % that.tweets.length;
+        var indexEnd = indexStart + tshow - 1;
+        //var returnTweets = [ ];
+        if (indexEnd < that.tweets.length) {
+            that.twitterdisplay = that.tweets.slice(indexStart, indexEnd + 1);
+        }
+        else {
+            that.twitterdisplay = that.tweets.slice(indexStart, that.tweets.length);
+            var tweetsRemaining = tshow - that.twitterdisplay.length;
+            that.twitterdisplay = that.twitterdisplay.concat(that.tweets.slice(0, tweetsRemaining));
+        }
+        that.tweetIndex += tshow;
+      }
+      that.processTwitterFeed();
+    },
+
+    processTwitterFeed: function() {
+      var that = this;
+      for (var i = 0; i < that.twitterdisplay.length; i++) {
+        that.twitterdisplay[i].even = false;
+        if (i % 2 === 0) {
+          that.twitterdisplay[i].even = true;
+        }
+        that.twitterdisplay[i].screen_name = that.twitterdisplay[i].user.screen_name;
+        var httpindex = that.twitterdisplay[i].text.indexOf("http");
+        that.twitterdisplay[i].tweet = that.twitterdisplay[i].text.substring(0,httpindex);
+        that.twitterdisplay[i].link = that.twitterdisplay[i].text.substring(httpindex);
+      }
+      that.getView().getModel().getData().twitterfeed = that.twitterdisplay;
+      that.getView().getModel().refresh();
+    },
+
+    twitterNameFormat: function(name, time) {
+      var that = this;
+      return name + ' - ' + that.getStringTimeDifference(time);
+    },
+
+    twitterTextFormat: function(text, link) {
+      return text + " " + link;
+    },
+
+    navigateToTwitterUrl: function(oEvent) {
+      var tURL = oEvent.getSource().getCustomData()[0].getValue();
+      window.open(tURL, '_blank');
+    },
+
+    // get the age of the tweet for display
+    getStringTimeDifference: function (theTimestamp) {
+        var nowTime = Date.now();
+        var thenTime = Date.parse(theTimestamp);
+        var calcTime = nowTime - thenTime;
+        var diffSecs = Math.round(calcTime / 1000);
+        if (diffSecs < 60) {
+            return diffSecs + "s";
+        }
+        if (diffSecs < (60 * 60)) {
+            var diffMins = Math.round(diffSecs / 60);
+            return diffMins + "m";
+        }
+        var diffHours = Math.round(diffSecs / (60 * 60));
+        if (diffHours > 24) {
+            var diffDays = Math.round(diffHours / 24);
+            return diffDays + " days";
+        } else {
+          return diffHours + "h";
+        }
+    },
+
+    /********* End - Twitter Feed *******/
 
 
     //function used to get users local time and set it to the model

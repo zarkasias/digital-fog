@@ -1,4 +1,4 @@
-<mvc:View controllerName="sap.electron.DigitalFog.controller.Main" xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:html="http://www.w3.org/1999/xhtml">
+<mvc:View controllerName="sap.electron.DigitalFog.controller.Main" xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
   <l:Grid class="sapUiSmallMarginTop">
     <l:content>
       <VBox id="date_module" class="top-section top-left controlBox">
@@ -10,6 +10,17 @@
         <layoutData>
           <l:GridData span="L4"/>
         </layoutData>
+        <List id="twitterFeed" backgroundDesign="Transparent" class="tweetlist" headerText="{/twitterhead}" items="{/twitterfeed}">
+            <CustomListItem type="Active" app:targeturl="{link}" press="navigateToTwitterUrl">
+              <HBox justifyContent="SpaceBetween">
+                <Text text="{parts: ['tweet', 'link'], formatter: '.twitterTextFormat'}" width="290px" visible="{even}" textAlign="left" class="twittertext tweeteven"/>
+                <Text text="{parts: ['screen_name', 'created_at'], formatter: '.twitterNameFormat'}" visible="{even}" textAlign="right" class="xxsmall tweeteven" />
+
+                <Text text="{parts: ['tweet', 'link'], formatter: '.twitterTextFormat'}" width="290px" visible="{= ${even} === false}" textAlign="left" class="twittertext tweetodd"/>
+                <Text text="{parts: ['screen_name', 'created_at'], formatter: '.twitterNameFormat'}" visible="{= ${even} === false}" textAlign="right" class="xxsmall tweetodd" />
+              </HBox>
+            </CustomListItem>
+        </List>
         <Table id="nhlScores" items="{/scores}" backgroundDesign="Transparent" class="nhltable">
           <headerToolbar>
             <Toolbar>

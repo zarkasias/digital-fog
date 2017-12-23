@@ -22,6 +22,13 @@ body {
   cursor: auto;
 }
 
+.xxsmall {
+  font-size: 12px !important;
+}
+
+.twittertext {
+  font-size: 14px !important
+}
 
 .xsmall {
   font-size: 15px !important;
@@ -114,6 +121,10 @@ body {
 
 }
 
+.comp-hidden {
+  display: none;
+}
+
 .busy_hide {
   display: none;
 }
@@ -129,6 +140,29 @@ body {
 
 .scorebox {
   border: 1px solid white;
+}
+
+.tweetlist .sapMLIB {
+  margin-top: 5px;
+  background: transparent !important;
+  border: 1px solid transparent !important;
+}
+
+.tweetlist .sapMListHdr {
+  padding: 0 !important;
+  color: #888888 !important;
+  font-size: 15px !important;
+  height: 2rem !important;
+  line-height: 2rem !important;
+  border-bottom: 1px solid #333333 !important;
+}
+
+.tweetlist .tweeteven {
+  color: #888888 !important;
+}
+
+.tweetlist .tweetodd {
+  color: #aaaaaa !important;
 }
 
 .nhltable {

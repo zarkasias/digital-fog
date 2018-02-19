@@ -10,7 +10,7 @@ var econfig = {
    forecast_header: "weather forecast",
 
    //greetings array - can take as many messages user wants
-   greetings: ["Welcome to the d-shop @ the SAP Innovation Space", "Seasons Greetings!!"],
+   greetings: ["Welcome to the d-shop @ the SAP Innovation Space", "Happy New Year!!"],
    unit: "imperial",
 
    //NHL Feed configiurations

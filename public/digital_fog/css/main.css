@@ -5,12 +5,16 @@ html {
 }
 
 body {
+  cursor: none !important;
   font-family: "Roboto Condensed", sans-serif;
   font-weight: 400;
   font-size: 2em;
   line-height: 1.5em;
   -webkit-font-smoothing: antialiased;
 }
+
+
+* {cursor: none !important;}
 
 
 ::-webkit-scrollbar {
@@ -110,15 +114,24 @@ body {
    height: 477px !important;
  }
 
+ .top-right {
+   padding-bottom: 202px;
+ }
+
 
 .second-section {
-  margin-top: 10px;
+  margin: 10px;
   text-align: center;
-  padding-bottom: 3px;
+}
+
+.news-container {
+  margin: 10px;
+  position: absolute;
+  width: 95%;
+  bottom: 30px;
 }
 
 .greeting-container {
-
 }
 
 .comp-hidden {
@@ -264,4 +277,33 @@ body {
 
 .max-temp.sapMLabel {
     color: #FF8E99;
+}
+
+.adminBtn {
+  position: absolute !important;
+  top: 0px;
+  left: 0px;
+}
+
+.adminBtn .sapMBtnInner {
+    font-size: 0.875rem;
+    height: 2.500rem;
+    min-width: 2.500rem;
+    background-color: transparent !important;
+    border: 0px solid transparent !important;
+    border-radius: 0.2rem;
+    color: #666666 !important;
+    text-shadow: none !important;
+}
+
+.adminBtn .sapMBtnIcon {
+    font-size: 1.075rem;
+    line-height: 2.075rem;
+    width: 2.075rem;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    vertical-align: top;
+    max-height: 2.075rem;
+    color: #666666 !important;
 }

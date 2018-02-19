@@ -64,16 +64,26 @@
                 "controlAggregation": "pages",
                 "transition": "slide"
             },
-            "routes": [{
-                    "pattern": "",
-                    "name": "digitalfog",
-                    "target": "digitalFog"
+            "routes": [
+                {
+                  "pattern": "",
+                  "name": "digitalfog",
+                  "target": "digitalFog"
+                },
+                {
+                  "pattern": "admin",
+                  "name": "digitaladmin",
+                  "target": "digitalAdmin"
                 }
             ],
             "targets": {
                 "digitalFog": {
                     "viewName": "Main",
                     "viewLevel": 1
+                },
+                "digitalAdmin": {
+                  "viewName": "Admin",
+                  "viewLevel": 1
                 }
             }
         }

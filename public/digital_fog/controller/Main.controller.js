@@ -28,6 +28,13 @@ sap.ui.define([
 
     onAfterShow: function() {
       var that = this;
+
+      window.addEventListener("orientationchange", function() {
+        	console.log(screen.orientation);
+          that.setSecondSettingPosition();
+      }, that);
+
+
       this.setSecondSettingPosition();
         for (var i in that.config) {
           if (econfig[i]) {
@@ -487,9 +494,11 @@ sap.ui.define([
     setSecondSettingPosition: function() {
       var winheight = $(window).height();
       var position = winheight * .61;
+      console.log(position);
       var weatherheight = 457;
+      console.log(position - weatherheight);
       var gc = document.getElementsByClassName('greeting-container');
-      gc[0].style.marginTop = (position - weatherheight) + "px";
+      //gc[0].style.marginTop = (position - weatherheight) + "px";
     },
 
 
@@ -885,6 +894,12 @@ sap.ui.define([
       }
       params += "&APPID=" + this.config.openweather_appid + "&units=" + this.config.unit;
       return params;
+    },
+
+    navigatetoAdmin: function(oEvent) {
+          this.getRouter().navTo("digitaladmin", {
+            from: "digitalfog"
+          }, false);
     },
 
 

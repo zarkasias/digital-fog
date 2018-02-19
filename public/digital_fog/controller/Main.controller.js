@@ -30,7 +30,6 @@ sap.ui.define([
       var that = this;
 
       window.addEventListener("orientationchange", function() {
-        	console.log(screen.orientation);
           that.setSecondSettingPosition();
       }, that);
 
